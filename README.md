@@ -1,19 +1,15 @@
 # fast-nameserver-lookup
 Rust-based nameserver lookup that's faster and more efficient than dig
 
+Nothing magic or custom here. Testing the speed of `dns-lookup` in Rust compared to `dig` on a Linux machine. Results are highly dependent on the machine and network conditions. 
+
 Average time over 100 iterations of looking up NS records for mackenly.com:
 ```
 Rust code:
-- Average elapsed time: 1.066939ms
+- Average elapsed time: 1.511143ms
 
 dig command:
-- Average elapsed time: 19.637505ms
+- Average elapsed time: 78.585925ms
 ```
-Rust code:
-- Average elapsed time: 1.22474ms
-
-dig command:
-- Average elapsed time: 20.330499ms
-``
 
 If run on Windows, uses nslookup instead of dig for the comparison.
