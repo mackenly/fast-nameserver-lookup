@@ -78,7 +78,7 @@ fn main() {
     let start = readme.find("```").unwrap();
     let end = readme.rfind("```").unwrap();
     let results = format!(
-        "```\nRust code:\n- Average elapsed time: {:?}\n\ndig command:\n- Average elapsed time: {:?}\n",
+        "```\nRust code:\n- Average elapsed time: {:?}\n\ndig command:\n- Average elapsed time: {:?}\n`",
         rust_results.iter().sum::<std::time::Duration>() / iterations as u32,
         dig_results.iter().sum::<std::time::Duration>() / iterations as u32
     );
