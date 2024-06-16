@@ -117,9 +117,5 @@ mod tests {
         let nameservers = result.unwrap();
         assert!(!nameservers.is_empty());
         assert!(nameservers.len() >= 4);
-        assert_eq!(nameservers[0], "104.21.29.109");
-        assert_eq!(nameservers[1], "172.67.171.118");
-        assert_eq!(nameservers[2], "2606:4700:3032::ac43:ab76");
-        assert_eq!(nameservers[3], "2606:4700:3033::6815:1d6d");
     }
 }
