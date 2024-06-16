@@ -1,0 +1,7 @@
+[package]
+name = "fast-nameserver-lookup"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+dns-lookup = "2.0.4"

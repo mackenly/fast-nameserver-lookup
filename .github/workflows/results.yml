@@ -1,0 +1,31 @@
+name: Benchmark
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+    benchmark:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v4
+
+        - name: Setup Rust
+          uses: actions-rs/toolchain@v1
+          with:
+            toolchain: stable
+            override: true
+
+        - name: Run Rust code
+          run: cargo run -r mackenly.com
+
+        - name: Commit changes
+          run: |
+            git config --local user.email "no-reply@tricitiesmediagroup.com"
+            git config --local user.name "Bench Bot"
+            git add README.md
+            git commit -m "Run and save benchmark results"
+            git push
+
+        
