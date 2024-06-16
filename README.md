@@ -8,6 +8,6 @@ Rust code:
 
 dig command:
 - Elapsed time: 141.988579ms
-``
+```
 
-If ran on Windows, uses nslookup instead of dig for the comparison.
+If run on Windows, uses nslookup instead of dig for the comparison.
