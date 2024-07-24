@@ -3,6 +3,9 @@ use std::env;
 use std::process::Command;
 use std::time::Instant;
 
+mod custom_lookup;
+use custom_lookup::get_nameservers as custom_get_nameservers;
+
 fn main() {
     // Get the domain from command line arguments
     let args: Vec<String> = env::args().collect();
@@ -12,14 +15,15 @@ fn main() {
     }
     let domain = &args[1];
 
-    let iterations = 100;
+    const ITERATIONS: u32 = 10;
 
     // storage for the results to store duration
-    let mut rust_results = Vec::new();
+    let mut rust_lib_results = Vec::new();
+    let mut rust_custom_results = Vec::new();
     let mut dig_results = Vec::new();
 
-    // Measure speed of your Rust code
-    for _ in 0..iterations {
+    // Measure speed of Rust crate code
+    for _ in 0..ITERATIONS {
         let start_time = Instant::now();
         match get_nameservers(domain) {
             Ok(_) => {}
@@ -27,15 +31,29 @@ fn main() {
                 eprintln!("Error: {}", e);
             }
         }
-        rust_results.push(start_time.elapsed());
+        rust_lib_results.push(start_time.elapsed());
     }
 
-    println!("Done with the Rust code");
+    println!("Done with the Rust lib code");
+
+    // Measure speed of custom Rust code
+    for _ in 0..ITERATIONS {
+        let start_time = Instant::now();
+        match custom_get_nameservers(domain) {
+            Ok(_) => {}
+            Err(e) => {
+                eprintln!("Error: {}", e);
+            }
+        }
+        rust_custom_results.push(start_time.elapsed());
+    }
+
+    println!("Done with the custom Rust code");
 
     // Measure speed of dig command
     // if windows
     if std::env::consts::OS == "windows" {
-        for _ in 0..iterations {
+        for _ in 0..ITERATIONS {
             let start_time = Instant::now();
             let output = Command::new("nslookup")
                 .arg("-type=NS")
@@ -46,7 +64,7 @@ fn main() {
             dig_results.push(start_time.elapsed());
         }
     } else {
-        for _ in 0..iterations {
+        for _ in 0..ITERATIONS {
             let start_time = Instant::now();
             let output = Command::new("dig")
                 .arg("+short")
@@ -60,17 +78,38 @@ fn main() {
     }
 
     // Print the results
-    println!("Rust code:");
-    println!(
-        "- Average elapsed time: {:?}",
-        rust_results.iter().sum::<std::time::Duration>() / iterations as u32
-    );
+    println!("Rust lib code:");
+    let rust_lib_average_time = rust_lib_results.iter().sum::<std::time::Duration>() / ITERATIONS;
+    println!("- Average elapsed time: {:?}", rust_lib_average_time);
+    rust_lib_results.sort_unstable();
+    let rust_lib_median_time = rust_lib_results[rust_lib_results.len() / 2];
+    println!("- Median elapsed time: {:?}", rust_lib_median_time);
+    let rust_lib_fastest_time = rust_lib_results[0];
+    println!("- Fastest elapsed time: {:?}", rust_lib_fastest_time);
+    let rust_lib_slowest_time = rust_lib_results[rust_lib_results.len() - 1];
+    println!("- Slowest elapsed time: {:?}", rust_lib_slowest_time);
+
+    println!("Custom Rust code:");
+    let rust_custom_average_time = rust_custom_results.iter().sum::<std::time::Duration>() / ITERATIONS;
+    println!("- Average elapsed time: {:?}", rust_custom_average_time);
+    rust_custom_results.sort_unstable();
+    let rust_custom_median_time = rust_custom_results[rust_custom_results.len() / 2];
+    println!("- Median elapsed time: {:?}", rust_custom_median_time);
+    let rust_custom_fastest_time = rust_custom_results[0];
+    println!("- Fastest elapsed time: {:?}", rust_custom_fastest_time);
+    let rust_custom_slowest_time = rust_custom_results[rust_custom_results.len() - 1];
+    println!("- Slowest elapsed time: {:?}", rust_custom_slowest_time);
 
     println!("dig command:");
-    println!(
-        "- Average elapsed time: {:?}",
-        dig_results.iter().sum::<std::time::Duration>() / iterations as u32
-    );
+    let dig_average_time = dig_results.iter().sum::<std::time::Duration>() / ITERATIONS;
+    println!("- Average elapsed time: {:?}", dig_average_time);
+    dig_results.sort_unstable();
+    let dig_median_time = dig_results[dig_results.len() / 2];
+    println!("- Median elapsed time: {:?}", dig_median_time);
+    let dig_fastest_time = dig_results[0];
+    println!("- Fastest elapsed time: {:?}", dig_fastest_time);
+    let dig_slowest_time = dig_results[dig_results.len() - 1];
+    println!("- Slowest elapsed time: {:?}", dig_slowest_time);
 
     // write to file README.md replace contents between ``` and ``` with the results
     let readme = include_str!("../README.md");
@@ -78,9 +117,19 @@ fn main() {
     let start = readme.find("```").unwrap();
     let end = readme.rfind("```").unwrap();
     let results = format!(
-        "```\nRust code:\n- Average elapsed time: {:?}\n\ndig command:\n- Average elapsed time: {:?}\n`",
-        rust_results.iter().sum::<std::time::Duration>() / iterations as u32,
-        dig_results.iter().sum::<std::time::Duration>() / iterations as u32
+        "```\nRust lib code:\n- Average elapsed time: {:?}\n- Median elapsed time: {:?}\n- Fastest elapsed time: {:?}\n- Slowest elapsed time: {:?}\n\nCustom Rust code:\n- Average elapsed time: {:?}\n- Median elapsed time: {:?}\n- Fastest elapsed time: {:?}\n- Slowest elapsed time: {:?}\n\nDig command:\n- Average elapsed time: {:?}\n- Median elapsed time: {:?}\n- Fastest elapsed time: {:?}\n- Slowest elapsed time: {:?}\n`",
+        rust_lib_average_time,
+        rust_lib_median_time,
+        rust_lib_fastest_time,
+        rust_lib_slowest_time,
+        rust_custom_average_time,
+        rust_custom_median_time,
+        rust_custom_fastest_time,
+        rust_custom_slowest_time,
+        dig_average_time,
+        dig_median_time,
+        dig_fastest_time,
+        dig_slowest_time
     );
     readme.replace_range(start..=end, &results);
     std::fs::write("README.md", readme).expect("Failed to write to README.md");
