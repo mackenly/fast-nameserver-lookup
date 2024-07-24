@@ -12,20 +12,20 @@ Three things are tested:
 Average time over 100 iterations of looking up NS records for mackenly.com:
 ```
 Rust lib code:
-- Average elapsed time: 8.561265ms
-- Median elapsed time: 233.028µs
-- Fastest elapsed time: 192.491µs
-- Slowest elapsed time: 83.594805ms
+- Average elapsed time: 597.546µs
+- Median elapsed time: 194.492µs
+- Fastest elapsed time: 190.364µs
+- Slowest elapsed time: 40.14657ms
 
 Custom Rust code:
-- Average elapsed time: 19.971246ms
-- Median elapsed time: 19.44533ms
-- Fastest elapsed time: 18.708635ms
-- Slowest elapsed time: 25.55777ms
+- Average elapsed time: 6.484227ms
+- Median elapsed time: 6.000502ms
+- Fastest elapsed time: 5.64434ms
+- Slowest elapsed time: 42.626151ms
 
 Dig command:
-- Average elapsed time: 39.872143ms
-- Median elapsed time: 20.466018ms
-- Fastest elapsed time: 19.989352ms
-- Slowest elapsed time: 215.045065ms
+- Average elapsed time: 20.758443ms
+- Median elapsed time: 18.886611ms
+- Fastest elapsed time: 8.504378ms
+- Slowest elapsed time: 285.612794ms
 ```
