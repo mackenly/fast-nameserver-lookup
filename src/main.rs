@@ -15,7 +15,7 @@ fn main() {
     }
     let domain = &args[1];
 
-    const ITERATIONS: u32 = 10;
+    const ITERATIONS: u32 = 100;
 
     // storage for the results to store duration
     let mut rust_lib_results = Vec::new();
