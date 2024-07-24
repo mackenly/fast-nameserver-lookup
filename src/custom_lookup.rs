@@ -303,3 +303,41 @@ pub fn get_nameservers(domain: &str) -> Result<Vec<String>, Box<dyn std::error::
         None => Err("Failed to retrieve DNS information".into()),
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_get_nameservers() {
+        let domain = "mackenly.com";
+        let result = get_nameservers(domain);
+        assert!(result.is_ok());
+        let mut nameservers = result.unwrap();
+        nameservers.sort_unstable();
+        assert!(!nameservers.is_empty());
+        assert!(nameservers.len() == 2);
+        assert!(nameservers[0] == "greg.ns.cloudflare.com");
+        assert!(nameservers[1] == "tegan.ns.cloudflare.com");
+        println!("Name servers for {}: {:?}", domain, nameservers);
+    }
+
+    #[test]
+    fn test_get_nameservers_with_invalid_domain() {
+        let domain = "mackenly";
+        let result = get_nameservers(domain);
+        assert!(result.is_err());
+        let error = result.unwrap_err();
+        assert!(error.to_string() == "Failed to retrieve DNS information");
+    }
+
+    #[test]
+    fn test_get_nameservers_with_odd_domain() {
+        let domain = "mackenly..com";
+        let result = get_nameservers(domain);
+        assert!(result.is_err());
+        let error = result.unwrap_err();
+        assert!(error.to_string() == "Failed to retrieve DNS information");
+        println!("Error message: {}", error);
+    }
+}

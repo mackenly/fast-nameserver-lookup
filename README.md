@@ -12,23 +12,26 @@ Three things are tested:
 Average time over 100 iterations of looking up NS records for mackenly.com:
 ```
 Rust lib code:
-- Average elapsed time: 597.546µs
-- Median elapsed time: 194.492µs
-- Fastest elapsed time: 190.364µs
-- Slowest elapsed time: 40.14657ms
+- Average elapsed time: 344.04µs
+- Median elapsed time: 254.1µs
+- Fastest elapsed time: 140.1µs
+- Slowest elapsed time: 8.4681ms
 
 Custom Rust code:
-- Average elapsed time: 6.484227ms
-- Median elapsed time: 6.000502ms
-- Fastest elapsed time: 5.64434ms
-- Slowest elapsed time: 42.626151ms
+- Average elapsed time: 25.230445ms
+- Median elapsed time: 23.193ms
+- Fastest elapsed time: 20.9253ms
+- Slowest elapsed time: 57.5296ms
 
 Dig command:
-- Average elapsed time: 20.758443ms
-- Median elapsed time: 18.886611ms
-- Fastest elapsed time: 8.504378ms
-- Slowest elapsed time: 285.612794ms
+- Average elapsed time: 2.058687189s
+- Median elapsed time: 2.054287s
+- Fastest elapsed time: 2.0452169s
+- Slowest elapsed time: 2.3432059s
 ```
+
+The crate returns IP addresses, while the custom code returns the domain names of the nameservers. These are not directly comparable. For my purposes the domain names are more useful. See #4 for more info.
+
 If anyone else goes on this journey, I'd suggest checking out the following resources:
 - [dns_lookup crate](https://docs.rs/dns-lookup/latest/dns_lookup/)
 - [The TCP/IP Guide](http://www.tcpipguide.com/free/t_DNSMessageHeaderandQuestionSectionFormat.htm)
