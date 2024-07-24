@@ -12,22 +12,22 @@ Three things are tested:
 Average time over 100 iterations of looking up NS records for mackenly.com:
 ```
 Rust lib code:
-- Average elapsed time: 597.546µs
-- Median elapsed time: 194.492µs
-- Fastest elapsed time: 190.364µs
-- Slowest elapsed time: 40.14657ms
+- Average elapsed time: 779.611µs
+- Median elapsed time: 196.077µs
+- Fastest elapsed time: 190.618µs
+- Slowest elapsed time: 58.193155ms
 
 Custom Rust code:
-- Average elapsed time: 6.484227ms
-- Median elapsed time: 6.000502ms
-- Fastest elapsed time: 5.64434ms
-- Slowest elapsed time: 42.626151ms
+- Average elapsed time: 4.058976ms
+- Median elapsed time: 3.513463ms
+- Fastest elapsed time: 3.060153ms
+- Slowest elapsed time: 40.41275ms
 
 Dig command:
-- Average elapsed time: 20.758443ms
-- Median elapsed time: 18.886611ms
-- Fastest elapsed time: 8.504378ms
-- Slowest elapsed time: 285.612794ms
+- Average elapsed time: 20.278525ms
+- Median elapsed time: 18.819193ms
+- Fastest elapsed time: 18.401163ms
+- Slowest elapsed time: 159.959453ms
 ```
 If anyone else goes on this journey, I'd suggest checking out the following resources:
 - [dns_lookup crate](https://docs.rs/dns-lookup/latest/dns_lookup/)
