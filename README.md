@@ -12,22 +12,22 @@ Three things are tested:
 Average time over 100 iterations of looking up NS records for mackenly.com:
 ```
 Rust lib code:
-- Average elapsed time: 344.04µs
-- Median elapsed time: 254.1µs
-- Fastest elapsed time: 140.1µs
-- Slowest elapsed time: 8.4681ms
+- Average elapsed time: 942.578µs
+- Median elapsed time: 236.372µs
+- Fastest elapsed time: 230.671µs
+- Slowest elapsed time: 70.478818ms
 
 Custom Rust code:
-- Average elapsed time: 25.230445ms
-- Median elapsed time: 23.193ms
-- Fastest elapsed time: 20.9253ms
-- Slowest elapsed time: 57.5296ms
+- Average elapsed time: 1.741382ms
+- Median elapsed time: 1.220411ms
+- Fastest elapsed time: 800.206µs
+- Slowest elapsed time: 43.552053ms
 
 Dig command:
-- Average elapsed time: 2.058687189s
-- Median elapsed time: 2.054287s
-- Fastest elapsed time: 2.0452169s
-- Slowest elapsed time: 2.3432059s
+- Average elapsed time: 20.203915ms
+- Median elapsed time: 18.897586ms
+- Fastest elapsed time: 8.512917ms
+- Slowest elapsed time: 205.800407ms
 ```
 
 The crate returns IP addresses, while the custom code returns the domain names of the nameservers. These are not directly comparable. For my purposes the domain names are more useful. See #4 for more info.
